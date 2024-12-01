@@ -14,24 +14,9 @@ exports.handler = async function(event, context) {
     }
 
     try {
-        console.log('Fetching price data...');
-        const response = await fetch('https://api.mainnet-beta.solana.com', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                "jsonrpc": "2.0",
-                "id": 1,
-                "method": "getAccountInfo",
-                "params": [
-                    "EHotaY3TM1mPFXmMkbpoQZrQSJaaxKNRimJkW4DQpump",
-                    {
-                        "encoding": "base64"
-                    }
-                ]
-            })
-        });
+        console.log('Fetching price data from Jupiter...');
+        const MINT_ADDRESS = 'EHotaY3TM1mPFXmMkbpoQZrQSJaaxKNRimJkW4DQpump';
+        const response = await fetch(`https://price.jup.ag/v4/price?ids=${MINT_ADDRESS}`);
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -40,30 +25,17 @@ exports.handler = async function(event, context) {
         const result = await response.json();
         console.log('Raw response:', JSON.stringify(result, null, 2));
         
-        if (!result.result || !result.result.value || !result.result.value.data) {
-            throw new Error("Invalid curve state: No data");
+        if (!result.data || !result.data[MINT_ADDRESS]) {
+            throw new Error("Price data not found");
         }
 
-        const data = Buffer.from(result.result.value.data[0], 'base64');
-        const virtualTokenReserves = data.readBigUInt64LE(8);
-        const virtualSolReserves = data.readBigUInt64LE(16);
+        const priceInSol = result.data[MINT_ADDRESS].price;
+        const tokensPerSol = 1 / priceInSol;
 
-        console.log('Reserves:', {
-            virtualTokenReserves: virtualTokenReserves.toString(),
-            virtualSolReserves: virtualSolReserves.toString()
+        console.log('Price calculation:', {
+            priceInSol: priceInSol,
+            tokensPerSol: tokensPerSol
         });
-
-        if (virtualTokenReserves <= 0n || virtualSolReserves <= 0n) {
-            throw new Error("Invalid reserve state");
-        }
-
-        const LAMPORTS_PER_SOL = 1000000000;
-        const TOKEN_DECIMALS = 6;
-
-        const priceInSol = Number(virtualSolReserves) / LAMPORTS_PER_SOL / 
-                          (Number(virtualTokenReserves) / Math.pow(10, TOKEN_DECIMALS));
-
-        console.log('Calculated price:', priceInSol);
 
         return {
             statusCode: 200,
@@ -73,7 +45,7 @@ exports.handler = async function(event, context) {
             },
             body: JSON.stringify({
                 price: priceInSol,
-                tokensPerSol: 1 / priceInSol
+                tokensPerSol: tokensPerSol
             })
         };
     } catch (error) {
