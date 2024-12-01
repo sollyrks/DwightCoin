@@ -4,4 +4,10 @@
   publish = "public"
 
 [functions]
-  node_bundler = "esbuild" 
+  node_bundler = "esbuild"
+  external_node_modules = ["node-fetch"]
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

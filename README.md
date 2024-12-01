@@ -1,6 +1,6 @@
-# Stewie Cryptocurrency Website
+# Dwight Cryptocurrency Website
 
-A modern, responsive website for the Stewie cryptocurrency.
+A modern, responsive website for the Dwight cryptocurrency.
 
 ## Setup Instructions
 

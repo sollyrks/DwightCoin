@@ -1,7 +1,7 @@
 {
-  "name": "stewie-crypto",
+  "name": "dwight-crypto",
   "version": "1.0.0",
-  "description": "Stewie Cryptocurrency Website",
+  "description": "Dwight Cryptocurrency Website",
   "type": "module",
   "scripts": {
     "build": "npm install"
