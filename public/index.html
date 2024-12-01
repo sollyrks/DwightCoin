@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dwight - The Future of Digital Currency</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script>
+        async function updatePrice() {
+            try {
+                const response = await fetch('/.netlify/functions/getPrice');
+                const data = await response.json();
+                
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+
+                const priceElement = document.querySelector('.price');
+                const changeElement = document.querySelector('.change');
+
+                // Format price to show more significant digits
+                const formattedPrice = data.price.toFixed(10);
+                // Remove trailing zeros after decimal point
+                const cleanPrice = formattedPrice.replace(/\.?0+$/, '');
+                
+                // Update price with animation
+                priceElement.innerHTML = `${cleanPrice} SOL <span class="trend">↗</span>`;
+                
+                // Format tokens per SOL with commas for better readability
+                const tokensPerSol = Math.floor(data.tokensPerSol).toLocaleString();
+                changeElement.innerHTML = `${tokensPerSol} DWIGHT per SOL <span class="trust-note">| To The Moon!</span>`;
+
+                // Remove loading class if present
+                priceElement.classList.remove('loading');
+
+                console.log('Price updated successfully:', data.price);
+            } catch (error) {
+                console.error('Error fetching price:', error);
+                const priceElement = document.querySelector('.price');
+                const changeElement = document.querySelector('.change');
+                
+                priceElement.innerHTML = 'Price data unavailable <i class="fas fa-exclamation-circle"></i>';
+                changeElement.innerHTML = 'Check back soon!';
+            }
+        }
+
+        // Update price immediately and then every 30 seconds
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Starting price updates...');
+            updatePrice();
+            setInterval(updatePrice, 30000);
+        });
+    </script>
+</head>
+<body>
+    <nav>
+        <div class="logo">Dwight <span class="ticker">($DWIGHT)</span></div>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Buy Dwight Now! 🚀</h1>
+            <div class="price-display">
+                <div class="current-price">
+                    <span class="price-label">Current Price</span>
+                    <div class="price animate-price">Loading... <i class="fas fa-sync fa-spin"></i></div>
+                    <div class="change">Fetching data...</div>
+                </div>
+            </div>
+            <div class="trust-badges">
+                <div class="badge"><i class="fas fa-rocket"></i> High Potential</div>
+                <div class="badge"><i class="fas fa-users"></i> Active Community</div>
+                <div class="badge"><i class="fas fa-bolt"></i> Early Access</div>
+            </div>
+            <div class="hero-actions">
+                <a href="https://pump.fun/coin/C8Efa1z6HN5jRc49gyHytPYwvdwbMFueXFc8zU47rZ4U" target="_blank" class="buy-button pulse-animation">
+                    Buy Dwight <i class="fas fa-external-link-alt"></i>
+                </a>
+                <a href="https://discord.gg/7m26Cv3V" target="_blank" class="discord-button">
+                    <i class="fab fa-discord"></i> Join Our Discord
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <h2>Why Choose Dwight?</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <i class="fas fa-rocket fa-2x"></i>
+                <h3>Moon Potential</h3>
+                <p>Get in early on the next big thing</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-chart-line fa-2x"></i>
+                <h3>Growing Fast</h3>
+                <p>Join our rapidly expanding community</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-comments fa-2x"></i>
+                <h3>Active Community</h3>
+                <p>Engage with fellow Dwight enthusiasts</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="about-container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>The Story Behind Dwight</h2>
+                    <div class="quote-box">
+                        <p class="highlight-text">"I've been there. I've felt the pain of rug pulls, watching my investments disappear overnight. Like many of you, I've experienced the frustration of broken promises and vanishing teams."</p>
+                    </div>
+                    <div class="story-text">
+                        <p>That's why I created Dwight. This isn't just another token – it's a movement born from the shared experiences of crypto investors who've been through the worst but haven't lost their dream of reaching the moon. 🚀</p>
+                        
+                        <p>I'm tired of projects that promise the world and deliver nothing. With Dwight, I want to build something different: a community of like-minded individuals who understand both the risks and potential of crypto. We're not here for quick gains – we're here to build something legendary together.</p>
+                        
+                        <p>No false promises. No complicated roadmaps. Just a strong community of believers who know that when we stick together, the moon isn't just a dream – it's a destination. 🌕</p>
+                    </div>
+                    <div class="join-movement">
+                        <a href="https://discord.gg/7m26Cv3V" target="_blank" class="movement-button">
+                            <i class="fab fa-discord"></i> Join the Movement
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-minimal">
+        <div class="contact-container">
+            <h2>Contact Us</h2>
+            <div class="email-container">
+                <i class="fas fa-envelope"></i>
+                <a href="mailto:sollyrks@gmail.com">sollyrks@gmail.com</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="https://discord.gg/7m26Cv3V" target="_blank" class="social-icon">
+                    <i class="fab fa-discord"></i>
+                </a>
+            </div>
+            <p>&copy; 2024 Dwight. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html> 
