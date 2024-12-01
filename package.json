@@ -2,12 +2,11 @@
   "name": "dwight-crypto",
   "version": "1.0.0",
   "description": "Dwight Cryptocurrency Website",
-  "type": "module",
   "scripts": {
     "build": "npm install"
   },
   "dependencies": {
-    "node-fetch": "^3.3.0"
+    "node-fetch": "^2.6.7"
   },
   "devDependencies": {
     "netlify-cli": "^17.37.2"
