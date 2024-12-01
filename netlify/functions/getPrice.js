@@ -25,7 +25,7 @@ exports.handler = async function(event, context) {
                 "id": 1,
                 "method": "getAccountInfo",
                 "params": [
-                    "6GXfUqrmPM4VdN1NoDZsE155jzRegJngZRjMkGyby7do",
+                    "EHotaY3TM1mPFXmMkbpoQZrQSJaaxKNRimJkW4DQpump",
                     {
                         "encoding": "base64"
                     }
